@@ -1,4 +1,5 @@
 <?php
+
 namespace app\admin\controller;
 
 class Index extends Base
@@ -26,7 +27,7 @@ class Index extends Base
     public function resetPwd()
     {
     	if(IS_POST){
-    		$s=model('CommonAdmin');
+    		$s=model('common.Admin');
     		$r=$s->resetPwd2(UID,input('old'),input('pass'));
     		return json($r);
     	}
@@ -49,7 +50,7 @@ class Index extends Base
     {
         $w['id']=UID;
         $d['skin']=input('skin');
-        model('CommonAdmin')->save($d,$w);
+        model('common.Admin')->save($d,$w);
         return json(RS());
     }
     public function welcome()

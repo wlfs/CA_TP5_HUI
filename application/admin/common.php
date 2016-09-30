@@ -1,12 +1,13 @@
 <?php
 function checkAuth($key){
 	//超级管理员拥有所有权限
-	if(UID==1){
+	if(ADMIN_ID==2){
 		return true;
 	}
 	//获取用户拥有的权限
 	$actions=session('AdminActions');
 	//检查权限
+	$key=lcfirst($key);
 	if(in_array($key, $actions)){
 		return true;
 	}
@@ -19,7 +20,7 @@ function checkAuth($key){
 function getMenus()
 {
 	//获取所有菜单
-	$lis=model('CommonMenus')->order('weight desc')->select();
+	$lis=model('common.Menus')->order('weight desc')->select();
 	$_lis=array();
 	foreach ($lis as $key => $value) {
 		//检查菜单权限
@@ -28,7 +29,7 @@ function getMenus()
 		}
 		$_lis[]=$value;
 	}
-	$tre=new app\common\model\Tree();
+	$tre=new \ivier\Tree();
 	$d=$tre->toTree($_lis);
 	return $d;
 } 
@@ -39,14 +40,18 @@ function getMenus()
  */
 function getSkin()
 {
-	$map['id']=UID;
-	$skin=model('CommonAdmin')->value("skin");
+	$map['id']=ADMIN_ID;
+	$skin=model('common.Admin')->value("skin");
 	return $skin;
 }
 
-function breadcrumb($auth)
+function breadcrumb($auth='')
 {
-	$lis=model('CommonMenus')->listPath($auth);
+	if(empty($auth)){
+		$auth=request()->controller().'/'.request()->action();
+		$auth=lcfirst($auth);
+	}
+	$lis=model('common.Menus')->listPath($auth);
 	$html="";
 	foreach ($lis as $key => $value) {
 		$html.='<span class="c-gray en">&gt;</span>'.$value->name;

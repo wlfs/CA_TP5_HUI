@@ -15,9 +15,10 @@ function RE($msg,$state=-1)
 }
 
 /**
- * 返回数据
- * @param  [type] $data [description]
- * @return [type]       [description]
+ * 成功并返回数据
+ * @param Object  $data  返回的数据对象或数组
+ * @param string  $info  成功的信息
+ * @param integer $state 成功的状态
  */
 function RD($data,$info="成功",$state=1)
 {
@@ -32,11 +33,10 @@ function RD($data,$info="成功",$state=1)
 	return $result;
 }
 
-
 /**
  * 返回处理成功
- * @param  string $msg [description]
- * @return [type]      [description]
+ * @param string  $msg   成功的消息提示
+ * @param integer $state 成功的状态值（默认为1）
  */
 function RS($msg='',$state=1)
 {
@@ -66,32 +66,14 @@ function randomkeys($length,$z=0)
 	return $key;
 }
 
-function getIPAddress($ip)
+/**
+ * 获取IP的地址
+ * @param  String $ip IP地址
+ * @return String IP所在区域
+ */
+function get_ip_address($ip)
 {
-	// import('ORG.Net.IpLocation');// 导入IpLocation类
-	// $Ip = new Org\Net\IpLocation(); // 实例化类 参数表示IP地址库文件
-	// $area = $Ip->getlocation($ip); // 获取某个IP地址所在的位置
-	// return   $area['country'] . $area['area'];
-	return '未知';
+	$Ip = new \ivier\IpLocation(); 
+	$area = $Ip->getlocation($ip); 
+	return   $area['country'] . $area['area'];
 }
-function get_client_ip() { 
-	if (getenv('HTTP_CLIENT_IP')) { 
-		$ip = getenv('HTTP_CLIENT_IP'); 
-	} 
-	elseif (getenv('HTTP_X_FORWARDED_FOR')) { 
-		$ip = getenv('HTTP_X_FORWARDED_FOR'); 
-	} 
-	elseif (getenv('HTTP_X_FORWARDED')) { 
-		$ip = getenv('HTTP_X_FORWARDED'); 
-	} 
-	elseif (getenv('HTTP_FORWARDED_FOR')) { 
-		$ip = getenv('HTTP_FORWARDED_FOR'); 
-	} 
-	elseif (getenv('HTTP_FORWARDED')) { 
-		$ip = getenv('HTTP_FORWARDED'); 
-	} 
-	else { 
-		$ip = $_SERVER['REMOTE_ADDR']; 
-	} 
-	return $ip; 
-} 

@@ -24,29 +24,34 @@
 	.refresh_ui{
 		line-height:1.6em;margin-top:3px;
 	}
+	.table_delete_a{
+		color: red;
+	}
 </style>
 {block name="css"}{/block}
 </head>
 <body>
 	<nav class="breadcrumb">
-	<a _href="{:url('index/welcome')}" data-title="我的桌面" href="javascript:void(0)"onclick="parent.Hui_admin_tab(this)">
-		<i class="Hui-iconfont"></i> 桌面</a> 
-		{block name='nav'}><!-- <span class="c-gray en">&gt;</span>产品管理 -->{/block}
-		<a class="btn btn-success radius r refresh_ui" href="javascript:refresh_ui();" title="刷新">
-			<i class="Hui-iconfont"></i>
-		</a>
-	</nav>
-	<div class="page-container">
-		{block name='body'}{/block}
-	</div> 
-	{include file="Public:_footer" /}
-	<script type="text/javascript">
-		var alert_error=function (msg,fuc) {
-			layer.msg(msg, {icon: 2},fuc);
-		};
-		var alert_success=function (msg,fuc) {
-			layer.msg(msg, {icon: 1},fuc);
-		};
+		<a _href="{:url('index/welcome')}" data-title="我的桌面" href="javascript:void(0)"onclick="parent.Hui_admin_tab(this)">
+			<i class="Hui-iconfont"></i> 桌面</a> 
+			{block name='nav'}
+			{:breadcrumb()}
+			{/block}
+			<a class="btn btn-success radius r refresh_ui" href="javascript:refresh_ui();" title="刷新">
+				<i class="Hui-iconfont"></i>
+			</a>
+		</nav>
+		<div class="page-container">
+			{block name='body'}{/block}
+		</div> 
+		{include file="Public:_footer" /}
+		<script type="text/javascript">
+			var alert_error=function (msg,fuc) {
+				layer.msg(msg, {icon: 2},fuc);
+			};
+			var alert_success=function (msg,fuc) {
+				layer.msg(msg, {icon: 1},fuc);
+			};
 		/**
 		 * 公共操作方法
 		 * @param  string tip 操作提示文本
@@ -71,8 +76,8 @@
 		 	location.reload();
 		 };
 		 function self_del(id){
-			common_opt('确定要删除当前项吗？',id,"{:url('del')}");
-		}
+		 	common_opt('确定要删除当前项吗？',id,"{:url('delete')}");
+		 }
 		 var data_dels=function () {
 		 	var lis=$('.table input[type="checkbox"]:checked');
 		 	if(lis.size()>0){

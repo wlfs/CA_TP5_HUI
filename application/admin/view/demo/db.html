@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="shortcut icon" type="image/ico" href="http://www.datatables.net/favicon.ico">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+	<title>DataTables example - Server-side processing</title>
+	<!--第一步：引入Javascript / CSS （CDN）-->
+	<!-- DataTables CSS -->
+	<link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+
+	<!-- jQuery -->
+	<script type="text/javascript" charset="utf8" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+
+	<!-- DataTables -->
+	<script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+
+
+
+
+</head>
+
+<table id="example" class="display" >
+	<thead>
+		<tr>
+			<th>id</th>
+			<th>user_id</th>
+			<th>Position</th>
+			<th>Office</th>
+			<th>Start date</th>
+		</tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<th>First name</th>
+			<th>Last name</th>
+			<th>Position</th>
+			<th>Office</th>
+			<th>Start date</th>
+		</tr>
+	</tfoot>
+</table>
+<script type="text/javascript" language="javascript" >
+
+	$(document).ready(function() {
+		$('#example').DataTable( {
+			"processing": true,
+			"serverSide": true,
+			"ajax":{
+				"url":"{:url()}",
+				"dataSrc":function(json){
+					json.current_page=1;
+					json.recordsTotal=json.total;
+					json.recordsFiltered=json.total;
+					console.log(json.data.length);
+					return json.data;
+				}
+			}, 
+			"columns": [
+			{ "data": "id" },
+			{ "data": "admin_id" },
+			{ "data": "created" },
+			{ "data": "ip" },
+			{ "data": "ip_address" }
+			]
+
+		});
+	} );
+
+</script>

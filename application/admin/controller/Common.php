@@ -13,7 +13,7 @@ class Common extends Controller
             {
                 $uname=$request->post('uname');
                 $pass=$request->post('pass');
-                $r=model('CommonAdmin')->login($uname,md5($pass));
+                $r=model('common.Admin')->login($uname,md5($pass));
                 if($r->status==1){
                     session('AdminInfo',$r->data);
                     $this->_getActions($r->data['id']);
@@ -40,7 +40,7 @@ class Common extends Controller
     #获取权限
     private function _getActions($uid)
     {
-        $codes=model('CommonActions')->listByAdminId($uid);
+        $codes=model('common.Actions')->listByAdminId($uid);
         session('AdminActions',$codes);
     }
 }

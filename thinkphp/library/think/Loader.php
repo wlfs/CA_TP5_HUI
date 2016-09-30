@@ -406,7 +406,7 @@ class Loader
         }
         $class = self::parseClass($module, $layer, $name, $appendSuffix);
         if (class_exists($class)) {
-            return new $class(Request::instance());
+            return App::invokeClass($class);
         } elseif ($empty && class_exists($emptyClass = self::parseClass($module, $layer, $empty, $appendSuffix))) {
             return new $emptyClass(Request::instance());
         }
@@ -519,7 +519,9 @@ class Loader
         $name  = str_replace(['/', '.'], '\\', $name);
         $array = explode('\\', $name);
         $class = self::parseName(array_pop($array), 1) . (App::$suffix || $appendSuffix ? ucfirst($layer) : '');
+
         $path  = $array ? implode('\\', $array) . '\\' : '';
+       
         return App::$namespace . '\\' . ($module ? $module . '\\' : '') . $layer . '\\' . $path . $class;
     }
 

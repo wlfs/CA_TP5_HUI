@@ -1,38 +1,49 @@
 #!/usr/bin/env php
 <?php
-
-if($argv[1]=='m'){
-	$tpl=file_get_contents("doc/stubs/model.stub");
-	for ($i=2;$i<$argc;$i++){
-		createModelFile($argv[$i],$tpl);
-	}
-}else if($argv[1]=='a'){
-	$tpl=file_get_contents("doc/stubs/adminController.stub");
-	for ($i=2;$i<$argc;$i++){
-		createControllerFile($argv[$i],$tpl);
+if($argc>1){
+	switch ($argv[1]) {
+		case 'mm':
+		$tpl=file_get_contents("doc/stubs/model.stub");
+		for ($i=2;$i<$argc;$i++){
+			createModelFile($argv[$i],$tpl);
+		}
+		break;
+		case 'ma':
+		$tpl=file_get_contents("doc/stubs/adminController.stub");
+		for ($i=2;$i<$argc;$i++){
+			createControllerFile($argv[$i],$tpl);
+		}
+		break;
+		case 'maa':
+			
+		break;
 	}
 }
-
-
+else{
+	echo iconv("utf-8","gb2312","mm modeName -- 创建model\r\n");
+	echo iconv("utf-8","gb2312","ma controllerName --创建Controller\r\n");
+	echo iconv("utf-8","gb2312","maa --更新action\r\n");
+}
 function createModelFile($fname,$content)
 {
-	$con=str_replace("{%className%}", $fname, $content);
+	$names=explode('/', $fname);
+	$con=str_replace("{%className%}", $names[count($names)-1], $content);
 	create_file("application/common/model/".$fname.".php",$con);
 }
 
-
 function createControllerFile($fname,$content)
 {
-	$con=str_replace("{%className%}", $fname, $content);
+	$names=explode('/', $fname);
+	$con=str_replace("{%className%}", $names[count($names)-1], $content);
 	create_file("application/admin/controller/".$fname.".php",$con);
 }
 function create_file($fname,$content)
 {	
 	if(!file_exists($fname)){
+		if($fname)
 		$myfile = fopen($fname, "w");
 		fwrite($myfile, $content);
 		fclose($myfile);
 		echo "成功创建文件：".$fname;
 	}
-	
 }
