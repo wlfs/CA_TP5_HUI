@@ -41,17 +41,24 @@ class Base extends Controller
 			define('ADMIN_ID',$info['id']);
 			//检查权限
 			$key=$this->request->controller().'/'.$this->request->action();
-			if(checkAuth($key)){
-				
-			}else{
-				if($this->request->isAjax()){
-					//返回权限提示
-					echo json(RE('-2','暂无权限！'));
+			$not_check_actions = array(
+				'Index/index',
+				'Index/welcome',
+				'Index/resetPwd',
+				'Index/personalInfo');
+			if(!in_array($key, $not_check_actions)){
+				if(checkAuth($key)){
+					
 				}else{
+					if($this->request->isAjax()){
+					//返回权限提示
+						echo json(RE('-2','暂无权限！'));
+					}else{
 					//返回无权限界面
-					echo $this->fetch('Common/not_have_permission');
-				}
-				exit;
+						echo $this->fetch('Common/not_have_permission');
+					}
+					exit;
+				}	
 			}
 			//定义UID用户编号常量
 			

@@ -1,8 +1,12 @@
 <?php
+namespace app\common\model{%dir%};
+//引入Base
+use app\common\model\Base;
 
-namespace app\common\model;
-
+/**
+ * {%comment%}模型
+ */
 class {%className%} extends Base
 {
-    //
+    protected $LogMsgParams=array('名','name','{%comment%}');
 }

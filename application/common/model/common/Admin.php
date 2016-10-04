@@ -2,7 +2,7 @@
 namespace app\common\model\common;
 use app\common\model\Base;
 /**
- * 管理员控制器
+ * 管理员模型
  */
 class Admin extends Base
 {
